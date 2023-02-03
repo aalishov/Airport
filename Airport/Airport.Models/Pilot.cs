@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace Airport.Models
+﻿namespace Airport.Models
 {
-    public class Pilot
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    public class Pilot : BaseModel
     {
-        public int Id { get; set; }
-
         [Required]
-        [MaxLength(100)]
+        [MaxLength(30)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(30)]
         public string LastName { get; set; }
 
         public int? Age { get; set; }
 
         public double? Rating { get; set; }
+
+        public virtual ICollection<PilotAircraft> PilotsAircraft { get; set; }
     }
 }

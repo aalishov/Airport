@@ -2,14 +2,15 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    public class Airport : BaseModel
+    public class Passenger : BaseModel
     {
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string FullName { get; set; }
 
+        [Required]
         [MaxLength(50)]
-        public string Country { get; set; }
+        public string Email { get; set; }
 
         public virtual ICollection<FlightDestination> FlightDestinations { get; set; }
     }
