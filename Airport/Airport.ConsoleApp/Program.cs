@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Airport.Services;
+using System;
 
 namespace Airport.ConsoleApp
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            PilotsService service = new PilotsService();
+
+            Console.WriteLine(service.UpdatePilotRating(2,2));
         }
     }
 }
