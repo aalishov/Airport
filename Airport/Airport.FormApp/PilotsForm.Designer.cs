@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBoxAdd = new System.Windows.Forms.GroupBox();
+            this.checkBoxDelete = new System.Windows.Forms.CheckBox();
             this.btnClearAdd = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.comboRating = new System.Windows.Forms.ComboBox();
@@ -39,11 +40,23 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.listBoxPilots = new System.Windows.Forms.ListBox();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.comboBoxItemsPerPage = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.labelPageInfo = new System.Windows.Forms.Label();
+            this.groupBoxOpt = new System.Windows.Forms.GroupBox();
+            this.radioEdit = new System.Windows.Forms.RadioButton();
+            this.radioAdd = new System.Windows.Forms.RadioButton();
+            this.btnStatistics = new System.Windows.Forms.Button();
             this.groupBoxAdd.SuspendLayout();
+            this.groupBoxOpt.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxAdd
             // 
+            this.groupBoxAdd.Controls.Add(this.checkBoxDelete);
             this.groupBoxAdd.Controls.Add(this.btnClearAdd);
             this.groupBoxAdd.Controls.Add(this.btnAdd);
             this.groupBoxAdd.Controls.Add(this.comboRating);
@@ -54,7 +67,7 @@
             this.groupBoxAdd.Controls.Add(this.label3);
             this.groupBoxAdd.Controls.Add(this.label2);
             this.groupBoxAdd.Controls.Add(this.label1);
-            this.groupBoxAdd.Location = new System.Drawing.Point(47, 38);
+            this.groupBoxAdd.Location = new System.Drawing.Point(50, 80);
             this.groupBoxAdd.Margin = new System.Windows.Forms.Padding(5);
             this.groupBoxAdd.Name = "groupBoxAdd";
             this.groupBoxAdd.Padding = new System.Windows.Forms.Padding(5);
@@ -63,6 +76,17 @@
             this.groupBoxAdd.TabStop = false;
             this.groupBoxAdd.Text = "Create";
             this.groupBoxAdd.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // checkBoxDelete
+            // 
+            this.checkBoxDelete.AutoSize = true;
+            this.checkBoxDelete.Location = new System.Drawing.Point(10, 280);
+            this.checkBoxDelete.Name = "checkBoxDelete";
+            this.checkBoxDelete.Size = new System.Drawing.Size(155, 35);
+            this.checkBoxDelete.TabIndex = 10;
+            this.checkBoxDelete.Text = "Delete pilot";
+            this.checkBoxDelete.UseVisualStyleBackColor = true;
+            this.checkBoxDelete.CheckedChanged += new System.EventHandler(this.checkBoxDelete_CheckedChanged);
             // 
             // btnClearAdd
             // 
@@ -153,11 +177,126 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "First name";
             // 
+            // listBoxPilots
+            // 
+            this.listBoxPilots.FormattingEnabled = true;
+            this.listBoxPilots.ItemHeight = 31;
+            this.listBoxPilots.Location = new System.Drawing.Point(596, 95);
+            this.listBoxPilots.Name = "listBoxPilots";
+            this.listBoxPilots.Size = new System.Drawing.Size(425, 407);
+            this.listBoxPilots.TabIndex = 1;
+            this.listBoxPilots.DoubleClick += new System.EventHandler(this.listBoxPilots_DoubleClick);
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Location = new System.Drawing.Point(636, 549);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(119, 58);
+            this.btnPrevious.TabIndex = 2;
+            this.btnPrevious.Text = "<<";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            // 
+            // btnNext
+            // 
+            this.btnNext.Location = new System.Drawing.Point(761, 549);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(117, 58);
+            this.btnNext.TabIndex = 3;
+            this.btnNext.Text = ">>";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // comboBoxItemsPerPage
+            // 
+            this.comboBoxItemsPerPage.FormattingEnabled = true;
+            this.comboBoxItemsPerPage.Items.AddRange(new object[] {
+            "10",
+            "20",
+            "30"});
+            this.comboBoxItemsPerPage.Location = new System.Drawing.Point(911, 560);
+            this.comboBoxItemsPerPage.Name = "comboBoxItemsPerPage";
+            this.comboBoxItemsPerPage.Size = new System.Drawing.Size(110, 39);
+            this.comboBoxItemsPerPage.TabIndex = 4;
+            this.comboBoxItemsPerPage.SelectedIndexChanged += new System.EventHandler(this.comboBoxItemsPerPage_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("MingLiU-ExtB", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label5.Location = new System.Drawing.Point(414, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(341, 43);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Pilots manager";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // labelPageInfo
+            // 
+            this.labelPageInfo.AutoSize = true;
+            this.labelPageInfo.Location = new System.Drawing.Point(761, 505);
+            this.labelPageInfo.Name = "labelPageInfo";
+            this.labelPageInfo.Size = new System.Drawing.Size(23, 31);
+            this.labelPageInfo.TabIndex = 6;
+            this.labelPageInfo.Text = "-";
+            // 
+            // groupBoxOpt
+            // 
+            this.groupBoxOpt.Controls.Add(this.radioEdit);
+            this.groupBoxOpt.Controls.Add(this.radioAdd);
+            this.groupBoxOpt.Location = new System.Drawing.Point(50, 526);
+            this.groupBoxOpt.Name = "groupBoxOpt";
+            this.groupBoxOpt.Size = new System.Drawing.Size(403, 83);
+            this.groupBoxOpt.TabIndex = 7;
+            this.groupBoxOpt.TabStop = false;
+            this.groupBoxOpt.Text = "Options";
+            // 
+            // radioEdit
+            // 
+            this.radioEdit.AutoSize = true;
+            this.radioEdit.Location = new System.Drawing.Point(207, 37);
+            this.radioEdit.Name = "radioEdit";
+            this.radioEdit.Size = new System.Drawing.Size(75, 35);
+            this.radioEdit.TabIndex = 1;
+            this.radioEdit.TabStop = true;
+            this.radioEdit.Text = "Edit";
+            this.radioEdit.UseVisualStyleBackColor = true;
+            // 
+            // radioAdd
+            // 
+            this.radioAdd.AutoSize = true;
+            this.radioAdd.Location = new System.Drawing.Point(60, 40);
+            this.radioAdd.Name = "radioAdd";
+            this.radioAdd.Size = new System.Drawing.Size(78, 35);
+            this.radioAdd.TabIndex = 0;
+            this.radioAdd.TabStop = true;
+            this.radioAdd.Text = "Add";
+            this.radioAdd.UseVisualStyleBackColor = true;
+            this.radioAdd.CheckedChanged += new System.EventHandler(this.radioAdd_CheckedChanged);
+            // 
+            // btnStatistics
+            // 
+            this.btnStatistics.Location = new System.Drawing.Point(471, 526);
+            this.btnStatistics.Name = "btnStatistics";
+            this.btnStatistics.Size = new System.Drawing.Size(142, 81);
+            this.btnStatistics.TabIndex = 8;
+            this.btnStatistics.Text = "Show statistics";
+            this.btnStatistics.UseVisualStyleBackColor = true;
+            this.btnStatistics.Click += new System.EventHandler(this.btnStatistics_Click);
+            // 
             // PilotsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1054, 569);
+            this.ClientSize = new System.Drawing.Size(1064, 621);
+            this.Controls.Add(this.btnStatistics);
+            this.Controls.Add(this.groupBoxOpt);
+            this.Controls.Add(this.labelPageInfo);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.comboBoxItemsPerPage);
+            this.Controls.Add(this.btnNext);
+            this.Controls.Add(this.btnPrevious);
+            this.Controls.Add(this.listBoxPilots);
             this.Controls.Add(this.groupBoxAdd);
             this.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(5);
@@ -166,7 +305,10 @@
             this.Load += new System.EventHandler(this.PilotsForm_Load);
             this.groupBoxAdd.ResumeLayout(false);
             this.groupBoxAdd.PerformLayout();
+            this.groupBoxOpt.ResumeLayout(false);
+            this.groupBoxOpt.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -183,5 +325,16 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnClearAdd;
+        private System.Windows.Forms.ListBox listBoxPilots;
+        private System.Windows.Forms.Button btnPrevious;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.ComboBox comboBoxItemsPerPage;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelPageInfo;
+        private System.Windows.Forms.GroupBox groupBoxOpt;
+        private System.Windows.Forms.RadioButton radioEdit;
+        private System.Windows.Forms.RadioButton radioAdd;
+        private System.Windows.Forms.CheckBox checkBoxDelete;
+        private System.Windows.Forms.Button btnStatistics;
     }
 }

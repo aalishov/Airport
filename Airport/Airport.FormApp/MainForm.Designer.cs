@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btnPilotForm = new System.Windows.Forms.Button();
+            this.btnAircraft = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPilotForm
@@ -41,11 +42,22 @@
             this.btnPilotForm.UseVisualStyleBackColor = true;
             this.btnPilotForm.Click += new System.EventHandler(this.btnPilotForm_Click);
             // 
+            // btnAircraft
+            // 
+            this.btnAircraft.Location = new System.Drawing.Point(231, 39);
+            this.btnAircraft.Name = "btnAircraft";
+            this.btnAircraft.Size = new System.Drawing.Size(160, 114);
+            this.btnAircraft.TabIndex = 1;
+            this.btnAircraft.Text = "button1";
+            this.btnAircraft.UseVisualStyleBackColor = true;
+            this.btnAircraft.Click += new System.EventHandler(this.btnAircraft_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnAircraft);
             this.Controls.Add(this.btnPilotForm);
             this.Name = "MainForm";
             this.Text = "Form1";
@@ -57,5 +69,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnPilotForm;
+        private System.Windows.Forms.Button btnAircraft;
     }
 }

@@ -32,5 +32,11 @@ namespace Airport.FormApp
         {
 
         }
+
+        private void btnAircraft_Click(object sender, EventArgs e)
+        {
+            AircraftsForm aircraftsForm= new AircraftsForm();
+            aircraftsForm.ShowDialog();
+        }
     }
 }

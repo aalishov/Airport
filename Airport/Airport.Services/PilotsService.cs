@@ -10,7 +10,7 @@
     public class PilotsService
     {
         private AppDbContext context;
-        
+
         public string CreatePilot(string firstName, string lastName, int age, double rating)
         {
             StringBuilder msg = new StringBuilder();
@@ -56,7 +56,41 @@
             }
             return msg.ToString().TrimEnd();
         }
-        
+
+        public Pilot GetPilotById(int id)
+        {
+            using (context = new AppDbContext())
+            {
+                return context.Pilots.Find(id);
+            }
+        }
+
+        public string GetStatistics()
+        {
+            StringBuilder msg = new StringBuilder();
+            string line = new string('-', 30);
+            using (context= new AppDbContext())
+            {
+                msg.AppendLine(line);
+                msg.AppendLine($"Pilots count: {context.Pilots.Count()}");
+                msg.AppendLine(line);
+                msg.AppendLine($"Average age: {context.Pilots.Average(x => x.Age):f2}");
+                msg.AppendLine(line);
+                msg.AppendLine($"Average rating: {context.Pilots.Average(x => x.Rating):f2}");
+
+                List<Pilot> topPilots=context.Pilots.OrderByDescending(x=>x.Rating).Take(10).ToList();
+                List<Pilot> botPilots = context.Pilots.OrderBy(x => x.Rating).Take(10).ToList();
+                msg.AppendLine(line);
+                msg.AppendLine($"Top pilots: ");
+                topPilots.ForEach(x => msg.AppendLine($"\t{x.FirstName} {x.LastName}"));
+                msg.AppendLine(line);
+                msg.AppendLine($"Bottom pilots: ");
+                botPilots.ForEach(x => msg.AppendLine($"\t{x.FirstName} {x.LastName}"));
+                msg.AppendLine(line);
+            }
+            return msg.ToString();
+        }
+
         public string GetPilotInfoById(int id)
         {
             Pilot pilot = null;
@@ -80,7 +114,7 @@
                 return $"{nameof(Pilot)} not found!";
             }
         }
-        
+
         public string GetAllPilotsInfo(int page = 1, int count = 10)
         {
             StringBuilder msg = new StringBuilder();
@@ -106,9 +140,30 @@
                 msg.AppendLine($"Page: {page} / {pageCount}");
             }
 
-
-
             return msg.ToString().TrimEnd();
+        }
+
+
+        public List<string> GetPilotsBasicInfo(int page = 1, int count = 10)
+        {
+            List<string> list = null;
+            using (context = new AppDbContext())
+            {
+                list = context.Pilots
+                    .Skip((page - 1) * count)
+                    .Take(count)
+                    .Select(x => $"{x.Id} - {x.FirstName} {x.LastName}")
+                    .ToList();
+            }
+            return list;
+        }
+
+        public int GetPilotsPagesCount(int count)
+        {
+            using (context = new AppDbContext())
+            {
+                return (int)Math.Ceiling(context.Pilots.Count() / (double)count);
+            }
         }
 
         public string UpdatePilotRating(int id, double newRating)
@@ -118,7 +173,7 @@
                 Pilot pilot = context.Pilots.Find(id);
                 if (pilot == null) { return $"{nameof(Pilot)} not found!"; }
                 if (newRating < 0 || newRating > 10) { return "Invalid new rating!"; }
-                pilot.Rating= newRating;
+                pilot.Rating = newRating;
                 context.Pilots.Update(pilot);
                 context.SaveChanges();
                 return $"{nameof(Pilot)} {pilot.FirstName} {pilot.LastName} has new rating: {newRating}";
@@ -129,7 +184,7 @@
         {
             using (context = new AppDbContext())
             {
-                Pilot pilot= context.Pilots.Find(id);
+                Pilot pilot = context.Pilots.Find(id);
                 if (pilot == null) { return $"{nameof(Pilot)} not found!"; }
                 context.Pilots.Remove(pilot);
                 context.SaveChanges();
