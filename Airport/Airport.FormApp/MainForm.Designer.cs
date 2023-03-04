@@ -36,9 +36,9 @@
             // 
             this.btnPilotForm.Location = new System.Drawing.Point(42, 39);
             this.btnPilotForm.Name = "btnPilotForm";
-            this.btnPilotForm.Size = new System.Drawing.Size(163, 100);
+            this.btnPilotForm.Size = new System.Drawing.Size(171, 114);
             this.btnPilotForm.TabIndex = 0;
-            this.btnPilotForm.Text = "button1";
+            this.btnPilotForm.Text = "Pilots";
             this.btnPilotForm.UseVisualStyleBackColor = true;
             this.btnPilotForm.Click += new System.EventHandler(this.btnPilotForm_Click);
             // 
@@ -48,7 +48,7 @@
             this.btnAircraft.Name = "btnAircraft";
             this.btnAircraft.Size = new System.Drawing.Size(160, 114);
             this.btnAircraft.TabIndex = 1;
-            this.btnAircraft.Text = "button1";
+            this.btnAircraft.Text = "Aircrafts";
             this.btnAircraft.UseVisualStyleBackColor = true;
             this.btnAircraft.Click += new System.EventHandler(this.btnAircraft_Click);
             // 

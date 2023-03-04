@@ -18,23 +18,56 @@ namespace Airport.Services
             using (context = new AppDbContext())
             {
                 aircraftType = context.AircraftTypes.FirstOrDefault(x => x.Name == type);
-            }
-            if (aircraftType == null) { aircraftType = new AircraftType() { Name = type }; }
 
-            Aircraft aircraft = new Aircraft()
-            {
-                Manufacturer = manufacturer,
-                Model = model,
-                Year = year,
-                FlightHours = flightHours,
-                Type = aircraftType
-            };
-            using (context = new AppDbContext())
-            {
+                if (aircraftType == null) { aircraftType = new AircraftType() { Name = type }; }
+
+                Aircraft aircraft = new Aircraft()
+                {
+                    Manufacturer = manufacturer,
+                    Model = model,
+                    Year = year,
+                    FlightHours = flightHours,
+                    Type = aircraftType,
+                    Condition = condition.First()
+                };
                 context.Aircrafts.Add(aircraft);
                 context.SaveChanges();
             }
-            return string.Empty;
+            return $"Aircraft added!";
+        }
+
+        public List<string> GetAircraftsInfo(string order = "A-Z", int page = 1, int count = 10)
+        {
+            List<string> aircrafts = null;
+            using (context = new AppDbContext())
+            {
+                if (order == "A-Z")
+                {
+                    aircrafts = context.Aircrafts
+                        .OrderBy(x => x.Manufacturer)
+                        .Skip((page - 1) * count)
+                        .Take(count)
+                        .Select(x => $"{x.Id} - {x.Manufacturer} {x.Model}, {x.FlightHours}")
+                        .ToList();
+                }
+                else
+                {
+                    aircrafts = context.Aircrafts
+                        .OrderByDescending(x => x.Manufacturer)
+                        .Skip((page - 1) * count)
+                        .Take(count)
+                        .Select(x => $"{x.Id} - {x.Manufacturer} {x.Model}, {x.FlightHours}")
+                        .ToList();
+                }
+            }
+            return aircrafts;
+        }
+        public int GetAircraftPagesCount(int count)
+        {
+            using (context = new AppDbContext())
+            {
+                return (int)Math.Ceiling(context.Aircrafts.Count() / (double)count);
+            }
         }
 
         public List<string> GetManufacturersName()
