@@ -158,7 +158,7 @@
             return list;
         }
 
-        public int GetPilotsPagesCount(int count)
+        public int GetPilotsPagesCount(int count=10)
         {
             using (context = new AppDbContext())
             {

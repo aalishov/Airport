@@ -1,5 +1,6 @@
 ﻿using Airport.Services;
 using System;
+using System.Collections.Generic;
 
 namespace Airport.ConsoleApp
 {
@@ -7,9 +8,12 @@ namespace Airport.ConsoleApp
     {
         public static void Main(string[] args)
         {
-            PilotsService service = new PilotsService();
+            AircraftsService service = new AircraftsService();
 
-            Console.WriteLine(service.UpdatePilotRating(2,2));
+            int aircraftId = 101;
+            List<int> pilots = new List<int>() { 2, 4, 6, 12 };
+            string result = service.AddCabinCrew(aircraftId, pilots);
+            Console.WriteLine(result);
         }
     }
 }

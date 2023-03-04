@@ -1,5 +1,7 @@
 ﻿using Airport.Data;
 using Airport.Models;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,47 @@ namespace Airport.Services
     public class AircraftsService
     {
         private AppDbContext context;
+
+        public string AddCabinCrew(int aircraftId, List<int> cabinCrewId)
+        {
+
+            StringBuilder message = new StringBuilder();
+            using (context = new AppDbContext())
+            {
+                Aircraft aircraft = context.Aircrafts.Find(aircraftId);
+                if (aircraft == null)
+                {
+                    message.AppendLine($"{nameof(Aircraft)} not found!");
+                    return message.ToString().TrimEnd();
+                };
+                List<Pilot> pilots = new List<Pilot>();
+                foreach (var id in cabinCrewId)
+                {
+                    Pilot pilot = context.Pilots.Find(id);
+                    if (pilot != null)
+                    {
+                        pilots.Add(pilot);
+                    }
+                }
+                if (pilots.Count == 0)
+                {
+                    message.AppendLine($"{nameof(Pilot)}s not found!");
+                    return message.ToString().TrimEnd();
+                }
+                message.AppendLine($"{aircraftId} {aircraft.Manufacturer} {aircraft.Model} cabin crew: ");
+                foreach (var pilot in pilots)
+                {
+                    context.PilotsAircraft.Add(new PilotAircraft
+                    {
+                        Aircraft = aircraft,
+                        Pilot = pilot
+                    });
+                    message.AppendLine($"\t{pilot.FirstName} {pilot.LastName}");
+                }
+                context.SaveChanges();
+                return message.ToString().TrimEnd();
+            }
+        }
 
         public string CreateAircraft(string manufacturer, string model, int year, int flightHours, string condition, string type)
         {
@@ -34,6 +77,22 @@ namespace Airport.Services
                 context.SaveChanges();
             }
             return $"Aircraft added!";
+        }
+
+        public List<string> GetAircraftsInfoWithoutCrew( int page = 1, int count = 10)
+        {
+            List<string> aircrafts = null;
+            using (context = new AppDbContext())
+            {
+                
+                    aircrafts = context.Aircrafts
+                        .Where(x=>!x.PilotsAircraft.Any())
+                        .Skip((page - 1) * count)
+                        .Take(count)
+                        .Select(x => $"{x.Id} - {x.Manufacturer} {x.Model}, {x.FlightHours}")
+                        .ToList();
+            }
+            return aircrafts;
         }
 
         public List<string> GetAircraftsInfo(string order = "A-Z", int page = 1, int count = 10)
@@ -67,6 +126,14 @@ namespace Airport.Services
             using (context = new AppDbContext())
             {
                 return (int)Math.Ceiling(context.Aircrafts.Count() / (double)count);
+            }
+        }
+
+        public int GetAircraftWithoutCrewPagesCount(int count=10)
+        {
+            using (context = new AppDbContext())
+            {
+                return (int)Math.Ceiling(context.Aircrafts.Where(x=>!x.PilotsAircraft.Any()).Count() / (double)count);
             }
         }
 
