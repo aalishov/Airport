@@ -2,10 +2,11 @@
 {
     using Models;
     using Microsoft.EntityFrameworkCore;
+    using System.Security.Cryptography.X509Certificates;
 
     public class AppDbContext : DbContext
     {
-        private const string ConnectionString = @"Server=STEM-13\MSSQLSERVER01; Initial Catalog=AirportEf; Integrated Security=true; Trusted_Connection=true";
+        private const string ConnectionString = @"Server=STEM-13\MSSQLSERVER01; Initial Catalog=AirportNewEf; Integrated Security=true; Trusted_Connection=true";
 
         public virtual DbSet<Aircraft> Aircrafts { get; set; }
         public virtual DbSet<AircraftType> AircraftTypes { get; set; }
@@ -40,6 +41,25 @@
                         .IsUnique(true);
                 });
 
+            modelBuilder.Entity<FlightDestination>
+                (
+                        option =>
+                        {
+                            option
+                        .HasOne(p => p.Airport)
+                        .WithMany(p => p.StartDestinations)
+                        .HasForeignKey(x => x.AirportId)
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                            option
+                    .HasOne(p => p.DestinationAirport)
+                    .WithMany(p => p.Destinations)
+                    .HasForeignKey(x => x.DestinationAirportId)
+                    .OnDelete(DeleteBehavior.NoAction);
+                        }
+
+                );
+
             modelBuilder.Entity<AircraftType>(
                 option =>
                 {
@@ -60,9 +80,6 @@
                 {
                     option
                         .HasIndex(x => x.Name)
-                        .IsUnique(true);
-                    option
-                        .HasIndex(x => x.Country)
                         .IsUnique(true);
                 });
             modelBuilder.Entity<FlightDestination>(

@@ -44,5 +44,11 @@ namespace Airport.FormApp
             CabinCrewForm cabinCrewForm= new CabinCrewForm();
             cabinCrewForm.ShowDialog();  
         }
+
+        private void btnAirports_Click(object sender, EventArgs e)
+        {
+            AirportsForm airportsForm= new AirportsForm();
+            airportsForm.ShowDialog();
+        }
     }
 }

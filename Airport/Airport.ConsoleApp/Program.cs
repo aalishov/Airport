@@ -8,12 +8,9 @@ namespace Airport.ConsoleApp
     {
         public static void Main(string[] args)
         {
-            AircraftsService service = new AircraftsService();
+            DestinationsService service = new DestinationsService();
 
-            int aircraftId = 101;
-            List<int> pilots = new List<int>() { 2, 4, 6, 12 };
-            string result = service.AddCabinCrew(aircraftId, pilots);
-            Console.WriteLine(result);
+            service.ChangeDb();
         }
     }
 }

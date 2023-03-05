@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Airport.Data.Migrations
 {
-    public partial class InitialMigration1 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -95,10 +95,11 @@ namespace Airport.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AirportId = table.Column<int>(nullable: false),
+                    DestinationAirportId = table.Column<int>(nullable: false),
                     Start = table.Column<DateTime>(nullable: false),
                     AircraftId = table.Column<int>(nullable: false),
-                    PassengerId = table.Column<int>(nullable: false),
-                    TicketPrice = table.Column<decimal>(nullable: false, defaultValue: 15m)
+                    TicketPrice = table.Column<decimal>(nullable: false, defaultValue: 15m),
+                    MaxTicketsCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,14 +114,12 @@ namespace Airport.Data.Migrations
                         name: "FK_FlightDestinations_Airports_AirportId",
                         column: x => x.AirportId,
                         principalTable: "Airports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_FlightDestinations_Passengers_PassengerId",
-                        column: x => x.PassengerId,
-                        principalTable: "Passengers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_FlightDestinations_Airports_DestinationAirportId",
+                        column: x => x.DestinationAirportId,
+                        principalTable: "Airports",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -143,6 +142,34 @@ namespace Airport.Data.Migrations
                         name: "FK_PilotsAircraft_Pilots_PilotId",
                         column: x => x.PilotId,
                         principalTable: "Pilots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reservation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PassengerId = table.Column<int>(nullable: false),
+                    FlightDestinationId = table.Column<int>(nullable: false),
+                    ReservationDate = table.Column<DateTime>(nullable: false),
+                    Tickets = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservation_FlightDestinations_FlightDestinationId",
+                        column: x => x.FlightDestinationId,
+                        principalTable: "FlightDestinations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservation_Passengers_PassengerId",
+                        column: x => x.PassengerId,
+                        principalTable: "Passengers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -182,9 +209,9 @@ namespace Airport.Data.Migrations
                 column: "AirportId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FlightDestinations_PassengerId",
+                name: "IX_FlightDestinations_DestinationAirportId",
                 table: "FlightDestinations",
-                column: "PassengerId");
+                column: "DestinationAirportId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Passengers_Email",
@@ -196,18 +223,31 @@ namespace Airport.Data.Migrations
                 name: "IX_PilotsAircraft_PilotId",
                 table: "PilotsAircraft",
                 column: "PilotId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservation_FlightDestinationId",
+                table: "Reservation",
+                column: "FlightDestinationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservation_PassengerId",
+                table: "Reservation",
+                column: "PassengerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FlightDestinations");
-
-            migrationBuilder.DropTable(
                 name: "PilotsAircraft");
 
             migrationBuilder.DropTable(
-                name: "Airports");
+                name: "Reservation");
+
+            migrationBuilder.DropTable(
+                name: "Pilots");
+
+            migrationBuilder.DropTable(
+                name: "FlightDestinations");
 
             migrationBuilder.DropTable(
                 name: "Passengers");
@@ -216,7 +256,7 @@ namespace Airport.Data.Migrations
                 name: "Aircrafts");
 
             migrationBuilder.DropTable(
-                name: "Pilots");
+                name: "Airports");
 
             migrationBuilder.DropTable(
                 name: "AircraftTypes");

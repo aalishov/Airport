@@ -4,14 +4,16 @@ using Airport.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Airport.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230305082034_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,6 +94,10 @@ namespace Airport.Data.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Country")
+                        .IsUnique()
+                        .HasFilter("[Country] IS NOT NULL");
 
                     b.HasIndex("Name")
                         .IsUnique();

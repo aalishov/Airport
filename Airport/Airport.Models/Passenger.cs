@@ -12,6 +12,6 @@
         [MaxLength(50)]
         public string Email { get; set; }
 
-        public virtual ICollection<FlightDestination> FlightDestinations { get; set; }
+        public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }
