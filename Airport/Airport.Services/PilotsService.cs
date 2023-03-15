@@ -120,7 +120,7 @@
             StringBuilder msg = new StringBuilder();
             string firstRow = $"| {"Id",-4} | {"First name",-12} | {"Last name",-12} | {"Age",-3} | {"Rating",-6}|";
 
-            string line = $"|{new string('-', firstRow.Length - 2)}|";
+            string line = GetLine(firstRow.Length);
 
             using (context = new AppDbContext())
             {
@@ -128,6 +128,7 @@
                     .Skip((page - 1) * count)
                     .Take(count)
                     .ToList();
+                msg.AppendLine(GetLine(firstRow.Length));
                 msg.AppendLine(firstRow);
                 msg.AppendLine(line);
                 foreach (var p in pilots)
@@ -143,6 +144,10 @@
             return msg.ToString().TrimEnd();
         }
 
+        private static string GetLine(int length, char c='|')
+        {
+            return $"{c}{new string('-', length - 2)}{c}";
+        }
 
         public List<string> GetPilotsBasicInfo(int page = 1, int count = 10)
         {
