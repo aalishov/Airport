@@ -1,13 +1,18 @@
 ﻿using Airport.ConsoleApp.Controllers;
 using Airport.Services;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 namespace Airport.ConsoleApp
 {
     public class Program
     {
+       // Add-Migration InitialMigration1 -OutputDir Migrations  -Project Airport.Data -StartupProject Airport.Data
+        //Update-Database -Project Airport.Data -StartupProject Airport.Data
+  
         public static void Main()
         {
             while (true)

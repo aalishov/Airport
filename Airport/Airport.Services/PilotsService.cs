@@ -10,6 +10,9 @@
     public class PilotsService
     {
         private AppDbContext context;
+        public PilotsService() { }
+
+        public PilotsService(AppDbContext context) { this.context = context; }
 
         public string CreatePilot(string firstName, string lastName, int age, double rating)
         {
@@ -59,9 +62,9 @@
 
         public Pilot GetPilotById(int id)
         {
-            using (context = new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
-                return context.Pilots.Find(id);
+                return context.Pilots.FirstOrDefault(x => x.Id == id);
             }
         }
 
@@ -69,7 +72,7 @@
         {
             StringBuilder msg = new StringBuilder();
             string line = new string('-', 30);
-            using (context= new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
                 msg.AppendLine(line);
                 msg.AppendLine($"Pilots count: {context.Pilots.Count()}");
@@ -78,7 +81,7 @@
                 msg.AppendLine(line);
                 msg.AppendLine($"Average rating: {context.Pilots.Average(x => x.Rating):f2}");
 
-                List<Pilot> topPilots=context.Pilots.OrderByDescending(x=>x.Rating).Take(10).ToList();
+                List<Pilot> topPilots = context.Pilots.OrderByDescending(x => x.Rating).Take(10).ToList();
                 List<Pilot> botPilots = context.Pilots.OrderBy(x => x.Rating).Take(10).ToList();
                 msg.AppendLine(line);
                 msg.AppendLine($"Top pilots: ");
@@ -94,7 +97,7 @@
         public string GetPilotInfoById(int id)
         {
             Pilot pilot = null;
-            using (context = new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
                 pilot = context.Pilots.Find(id);
             }
@@ -122,7 +125,7 @@
 
             string line = GetLine(firstRow.Length);
 
-            using (context = new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
                 List<Pilot> pilots = context.Pilots
                     .Skip((page - 1) * count)
@@ -144,7 +147,7 @@
             return msg.ToString().TrimEnd();
         }
 
-        private static string GetLine(int length, char c='|')
+        private static string GetLine(int length, char c = '|')
         {
             return $"{c}{new string('-', length - 2)}{c}";
         }
@@ -152,7 +155,7 @@
         public List<string> GetPilotsBasicInfo(int page = 1, int count = 10)
         {
             List<string> list = null;
-            using (context = new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
                 list = context.Pilots
                     .Skip((page - 1) * count)
@@ -163,9 +166,9 @@
             return list;
         }
 
-        public int GetPilotsPagesCount(int count=10)
+        public int GetPilotsPagesCount(int count = 10)
         {
-            using (context = new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
                 return (int)Math.Ceiling(context.Pilots.Count() / (double)count);
             }
@@ -173,7 +176,7 @@
 
         public string UpdatePilotRating(int id, double newRating)
         {
-            using (context = new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
                 Pilot pilot = context.Pilots.Find(id);
                 if (pilot == null) { return $"{nameof(Pilot)} not found!"; }
@@ -187,9 +190,9 @@
 
         public string DeletePilotById(int id)
         {
-            using (context = new AppDbContext())
+            using (context = context ?? new AppDbContext())
             {
-                Pilot pilot = context.Pilots.Find(id);
+                Pilot pilot = context.Pilots.FirstOrDefault(x=>x.Id==id);
                 if (pilot == null) { return $"{nameof(Pilot)} not found!"; }
                 context.Pilots.Remove(pilot);
                 context.SaveChanges();

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
@@ -16,9 +16,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Airport.Data\Airport.Data.csproj" />
     <ProjectReference Include="..\Airport.Models\Airport.Models.csproj" />
-    <ProjectReference Include="..\Airport.Services\Airport.Services.csproj" />
   </ItemGroup>
 
 </Project>
