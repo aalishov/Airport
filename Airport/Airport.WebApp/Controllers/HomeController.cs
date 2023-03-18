@@ -1,4 +1,4 @@
-﻿using Airport.WebApp.Models;
+﻿using Airports.ViewModels.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

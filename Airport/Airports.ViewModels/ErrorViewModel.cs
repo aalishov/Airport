@@ -1,6 +1,6 @@
 using System;
 
-namespace Airport.WebApp.Models
+namespace Airports.ViewModels.Models
 {
     public class ErrorViewModel
     {

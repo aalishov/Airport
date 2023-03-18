@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using Moq;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using Airport.Models;
@@ -18,7 +17,7 @@ namespace Airport.Tests
 
         private List<Pilot> pilots = new List<Pilot>();
 
-        private IQueryable<Pilot> dbTablePilots = null;
+        private IQueryable<Pilot> dbTable = null;
 
         private PilotsService service = null;
         private Mock<AppDbContext> mockContext = null;
@@ -28,7 +27,7 @@ namespace Airport.Tests
         {
             Random random = new Random();
             pilots.Clear();
-            for (int i = 1; i <= 50; i++)
+            for (int i = 1; i <= 30; i++)
             {
                 Pilot pilot = new Pilot()
                 {
@@ -40,17 +39,19 @@ namespace Airport.Tests
                 };
                 pilots.Add(pilot);
             }
-            dbTablePilots = pilots.ToList().AsQueryable();
+
+            dbTable = pilots.ToList().AsQueryable();
 
             var mockSet = new Mock<DbSet<Pilot>>();
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(dbTablePilots.Provider);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(dbTablePilots.Expression);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(dbTablePilots.ElementType);
-            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(dbTablePilots.GetEnumerator());
+
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Provider).Returns(dbTable.Provider);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.Expression).Returns(dbTable.Expression);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.ElementType).Returns(dbTable.ElementType);
+            mockSet.As<IQueryable<Pilot>>().Setup(m => m.GetEnumerator()).Returns(dbTable.GetEnumerator());
 
             mockContext = new Mock<AppDbContext>();
             mockContext.Setup(p => p.Pilots).Returns(mockSet.Object);
-
+            
 
             service = new PilotsService(mockContext.Object);
         }
@@ -60,7 +61,7 @@ namespace Airport.Tests
         public void TestGetPilotsPagesCount()
         {
 
-            var expected = 5;
+            var expected = 3;
             var actual = service.GetPilotsPagesCount();
 
             Assert.That(actual, Is.EqualTo(expected));
@@ -77,5 +78,16 @@ namespace Airport.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
+
+        [Test]
+        public void TestPilotsCount()
+        {
+
+            var expected =29;
+            service.DeletePilotById(2);
+            var actual = service.GetPilotsCount();
+
+            Assert.That(actual, Is.EqualTo(expected));
+        }
     }
 }

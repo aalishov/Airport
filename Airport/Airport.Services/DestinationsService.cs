@@ -10,9 +10,15 @@ namespace Airport.Services
     {
         private AppDbContext context;
 
-        public void ChangeDb()
+        public DestinationsService()
         {
-           
+            this.context= new AppDbContext();
         }
+        public DestinationsService(AppDbContext context)
+        {
+            this.context = context;
+        }
+
+
     }
 }

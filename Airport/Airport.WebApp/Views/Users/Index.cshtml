@@ -1,0 +1,26 @@
+﻿@model List<Airports.ViewModels.Models.Users.IndexUserViewModel>
+
+<h1> Index user page</h1>
+<button type="button" class="btn btn-success">Success</button>
+<table class="table table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Age</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.FirstName</td>
+                <td>@p.LastName</td>
+                <td>@p.Age</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
