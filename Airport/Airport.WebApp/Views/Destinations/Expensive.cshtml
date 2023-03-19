@@ -1,0 +1,24 @@
+﻿@model List<Airports.ViewModels.Destinations.DestinationIndexViewModel>
+
+
+<div class="jumbotron">
+    <h2 class="display-4">Most expensive flights</h2>
+    <hr />
+    <div class="container">
+        <div class="row mx-auto ">
+            @foreach (var item in Model)
+            {
+                    <div class="card mx-auto my-1" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.StartAirport</h5>
+                            <p class="card-text">Destination: @item.DestinationAirport</p>
+                            <p class="card-text">Date: @item.Date</p>
+                            <p class="card-text">Price: @item.Price</p>
+                            <img class="img-thumbnail" src="@item.ImageUrl" />
+                        @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-﻿@model List<Airports.ViewModels.Models.Destinations.DestinationIndexViewModel>
+﻿@model Airports.ViewModels.Destinations.DestinationsIndexViewModel
 
 <h1>Destinations page</h1>
 
@@ -10,19 +10,22 @@
             <th>To</th>
             <th>Date</th>
             <th>Price</th>
+            <th>Image</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var p in Model)
+        @foreach (var p in Model.Destinations)
         {
             <tr>
                 <td>@p.StartAirport</td>
                 <td>@p.DestinationAirport</td>
                 <td>@p.Date</td>
                 <td>@p.Price</td>
+                <td><img src="@p.ImageUrl" width="300px" height="150px" /></td>
             </tr>
         }
     </tbody>
     <tfoot>
     </tfoot>
 </table>
+<partial name="_PagingPartial" />
