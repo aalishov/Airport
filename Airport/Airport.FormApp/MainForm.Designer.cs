@@ -32,6 +32,7 @@
             this.btnAircraft = new System.Windows.Forms.Button();
             this.btnCabinCrew = new System.Windows.Forms.Button();
             this.btnAirports = new System.Windows.Forms.Button();
+            this.btnDestinations = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPilotForm
@@ -74,11 +75,22 @@
             this.btnAirports.UseVisualStyleBackColor = true;
             this.btnAirports.Click += new System.EventHandler(this.btnAirports_Click);
             // 
+            // btnDestinations
+            // 
+            this.btnDestinations.Location = new System.Drawing.Point(51, 171);
+            this.btnDestinations.Name = "btnDestinations";
+            this.btnDestinations.Size = new System.Drawing.Size(164, 100);
+            this.btnDestinations.TabIndex = 4;
+            this.btnDestinations.Text = "Destinations";
+            this.btnDestinations.UseVisualStyleBackColor = true;
+            this.btnDestinations.Click += new System.EventHandler(this.btnDestinations_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnDestinations);
             this.Controls.Add(this.btnAirports);
             this.Controls.Add(this.btnCabinCrew);
             this.Controls.Add(this.btnAircraft);
@@ -96,5 +108,6 @@
         private System.Windows.Forms.Button btnAircraft;
         private System.Windows.Forms.Button btnCabinCrew;
         private System.Windows.Forms.Button btnAirports;
+        private System.Windows.Forms.Button btnDestinations;
     }
 }

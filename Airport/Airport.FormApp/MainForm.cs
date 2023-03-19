@@ -50,5 +50,11 @@ namespace Airport.FormApp
             AirportsForm airportsForm= new AirportsForm();
             airportsForm.ShowDialog();
         }
+
+        private void btnDestinations_Click(object sender, EventArgs e)
+        {
+            DestinationForm form= new DestinationForm();    
+            form.ShowDialog();
+        }
     }
 }
