@@ -79,6 +79,31 @@ namespace Airport.Services
             return model;
         }
 
+        public DestinationsSeacrhViewModel GetDestinationsSearch(DestinationsSeacrhViewModel model)
+        {
+            model.Destinations = context.FlightDestinations
+                .Where(x => model.Min != 0 && model.Max != 0 ? x.TicketPrice >= model.Min && x.TicketPrice <= model.Max : x.Id != 0)
+                .Skip((model.PageNumber - 1) * model.ItemsPerPage)
+                .Take(model.ItemsPerPage)
+                .Select(x => new DestinationIndexViewModel()
+                {
+                    Id = x.Id,
+                    StartAirport = $"{x.Airport.Name} {x.Airport.Country}",
+                    DestinationAirport = $"{x.DestinationAirport.Name} {x.DestinationAirport.Country}",
+                    Date = x.Start.ToShortDateString(),
+                    Price = x.TicketPrice.ToString()
+                })
+                .ToList();
+
+            model.ElementsCount = context.FlightDestinations
+                .Where(x => model.Min != 0 && model.Max != 0 ? x.TicketPrice >= model.Min && x.TicketPrice <= model.Max : x.Id != 0)
+                .Count();
+
+            return model;
+        }
+
+
+
         public List<DestinationIndexViewModel> GetChepestDestinations()
         {
             return context.FlightDestinations.OrderBy(x => x.TicketPrice)

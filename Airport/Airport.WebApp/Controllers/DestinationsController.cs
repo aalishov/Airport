@@ -1,6 +1,7 @@
 ﻿using Airport.Services;
 using Airports.ViewModels.Destinations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
 namespace Airport.WebApp.Controllers
@@ -21,9 +22,20 @@ namespace Airport.WebApp.Controllers
             return View(models);
         }
 
+        public IActionResult Search(int min, int max, int page = 1)
+        {
+            DestinationsSeacrhViewModel models = new DestinationsSeacrhViewModel();
+            models.PageNumber = page;
+            models.Min = min;
+            models.Max = max;
+            models.Action = "Search";
+            models = destinationsService.GetDestinationsSearch(models);
+             
+            return View(models);
+        }
         public IActionResult Cheapest()
         {
-            List<DestinationIndexViewModel> model=destinationsService.GetChepestDestinations();
+            List<DestinationIndexViewModel> model = destinationsService.GetChepestDestinations();
             return View(model);
         }
 
